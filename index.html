@@ -188,6 +188,21 @@
             transition-delay: 0.5s;
         }
 
+        .wrapper:active .lid.one {
+            transform: rotateX(90deg);
+            transition-delay: 0s;
+        }
+
+        .wrapper:active .lid.two {
+            transform: rotateX(180deg);
+            transition-delay: 0.25s;
+        }
+
+        .wrapper:active .letter {
+            transform: translateY(-200px) scale(1.1);
+            transition-delay: 0.5s;
+        }
+
         .choice-container {
             text-align: center;
             margin: 40px 0;
@@ -471,6 +486,12 @@
                     confettiContainer.innerHTML = '';
                 }, 10000); /* Increased timeout to match duration */
             }
+
+            const wrapper = document.querySelector('.wrapper');
+
+            wrapper.addEventListener('click', () => {
+                wrapper.classList.toggle('active');
+            });
         });
     </script>
 </body>
