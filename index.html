@@ -287,6 +287,92 @@
             }
         }
 
+        .heart {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            background-color: #ff1493;
+            transform: rotate(-45deg);
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #ff1493;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -25px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 25px;
+            top: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(-45deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(-45deg);
+            }
+            100% {
+                transform: translateY(0) rotate(-45deg);
+            }
+        }
+
+        .valentine-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            color: #ff1493;
+            text-align: center;
+            animation: fadeInOut 3s ease-in-out, scaleUp 3s ease-in-out;
+            z-index: 1001;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleUp {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+        }
+
+        .gif-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1002;
+        }
+
+        .gif-container img {
+            width: 300px;
+            height: auto;
+            animation: fadeInOut 3s ease-in-out;
+        }
+
         /* Add responsive styles at the end of the file */
         @media screen and (max-width: 768px) {
             .page-container {
@@ -342,6 +428,14 @@
                 margin: 0 auto;
                 padding: 0 10px;
             }
+
+            .valentine-message {
+                font-size: 2.5rem;
+            }
+
+            .gif-container img {
+                width: 200px;
+            }
         }
 
         @media screen and (max-width: 480px) {
@@ -373,6 +467,14 @@
             .choice-btn {
                 padding: 10px 20px;
                 font-size: 1rem;
+            }
+
+            .valentine-message {
+                font-size: 2rem;
+            }
+
+            .gif-container img {
+                width: 150px;
             }
         }
     </style>
@@ -411,6 +513,10 @@
         </div>
     </div>
     <div class="confetti" id="confetti"></div>
+    <div class="valentine-message" id="valentineMessage" style="display: none;">HAPPY VALENTINE AISS! 💖</div>
+    <div class="gif-container" id="gifContainer" style="display: none;">
+        <img src="1.gif" alt="Happy Valentine GIF">
+    </div>
 
     <script>
         const messages = [
@@ -460,12 +566,17 @@
             const noBtn = document.getElementById('noBtn');
             const response = document.getElementById('response');
             const confettiContainer = document.getElementById('confetti');
+            const valentineMessage = document.getElementById('valentineMessage');
+            const gifContainer = document.getElementById('gifContainer');
 
             yesBtn.addEventListener('click', () => {
                 response.style.display = 'block';
                 response.textContent = "“Dolu P svvr pu fvby lflz, huk fvb hyl svvrpun ihjr pu tpul, lclyfaopun mllsz uva xbpal uvyths. Iljhbzl P mlls zayvunly huk dlhrly ha aol zhtl aptl, P mlls lejpalk huk ha aol zhtl aptl alyypmplk. Aol aybao pz P kvu’a ruvd doha P mlls, lejlwa P ruvd doha rpuk vm thu P dhua av il.”";
                 response.scrollIntoView({ behavior: 'smooth' });
                 launchConfetti();
+                launchHearts();
+                showValentineMessage();
+                showGif();
             });
 
             noBtn.addEventListener('mouseover', () => {
@@ -475,16 +586,44 @@
             });
 
             function launchConfetti() {
-                for (let i = 0; i < 100; i++) {
+                for (let i = 0; i < 200; i++) { // Increased number of confetti pieces
                     const confettiPiece = document.createElement('div');
                     confettiPiece.className = 'confetti-piece';
                     confettiPiece.style.left = `${Math.random() * 100}%`;
-                    confettiPiece.style.animationDelay = `${Math.random() * 5}s`; /* Increased delay to match duration */
+                    confettiPiece.style.animationDelay = `${Math.random() * 5}s`;
                     confettiContainer.appendChild(confettiPiece);
                 }
                 setTimeout(() => {
                     confettiContainer.innerHTML = '';
-                }, 10000); /* Increased timeout to match duration */
+                }, 10000);
+            }
+
+            function launchHearts() {
+                for (let i = 0; i < 20; i++) {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.style.left = `${Math.random() * 100}%`;
+                    heart.style.top = `${Math.random() * 100}%`;
+                    heart.style.animationDelay = `${Math.random() * 2}s`;
+                    document.body.appendChild(heart);
+                }
+                setTimeout(() => {
+                    document.querySelectorAll('.heart').forEach(heart => heart.remove());
+                }, 5000);
+            }
+
+            function showValentineMessage() {
+                valentineMessage.style.display = 'block';
+                setTimeout(() => {
+                    valentineMessage.style.display = 'none';
+                }, 3000);
+            }
+
+            function showGif() {
+                gifContainer.style.display = 'block';
+                setTimeout(() => {
+                    gifContainer.style.display = 'none';
+                }, 3000);
             }
 
             const wrapper = document.querySelector('.wrapper');
